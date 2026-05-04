@@ -16,4 +16,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./
 RUN pnpm install --prod
 EXPOSE 3000
-CMD ["pnpm", "run", "start"]
+CMD ["node", "dist/index.js"]
