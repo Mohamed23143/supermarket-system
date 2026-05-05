@@ -1,0 +1,16 @@
+{
+  "name": "@supermarket/db",
+  "version": "0.0.1",
+  "description": "Database layer for supermarket system",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
