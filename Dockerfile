@@ -1,14 +1,16 @@
 # 1. المرحلة الأولى: بناء الكود (Build Stage)
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 RUN npm install -g pnpm
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm run build
 
 # 2. المرحلة الثانية: تشغيل الكود (Production Stage)
-FROM node:18-alpine
+FROM node:20-alpine
 RUN npm install -g pnpm
 WORKDIR /app
 # بناخد بس الملفات اللي اتعمل لها Build عشان الحجم يبقى صغير
