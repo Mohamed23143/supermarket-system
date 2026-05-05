@@ -52,15 +52,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: List files
+        run: ls -la
 
       - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: supermarket-system:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: docker build -t supermarket-system:latest . --file ./Dockerfile
