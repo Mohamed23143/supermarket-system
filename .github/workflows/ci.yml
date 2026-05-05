@@ -56,4 +56,4 @@ jobs:
         run: ls -la
 
       - name: Build Docker image
-        run: docker build -t supermarket-system:latest . --file ./Dockerfile
+        run: docker build -t supermarket-system:latest -f ./Dockerfile .
