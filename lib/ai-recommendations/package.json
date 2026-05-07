@@ -1,0 +1,19 @@
+{
+  "name": "@supermarket/ai-recommendations",
+  "version": "0.0.1",
+  "description": "AI-powered product recommendations using Anthropic Claude API",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.28.0"
+  }
+}
