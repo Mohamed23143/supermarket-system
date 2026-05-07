@@ -1,7 +1,7 @@
 {
   "name": "@supermarket/ai-recommendations",
   "version": "0.0.1",
-  "description": "AI-powered product recommendations using Anthropic Claude API",
+  "description": "AI-powered product recommendations using Google Gemini API",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.28.0"
+    "@google/generative-ai": "^0.19.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0"

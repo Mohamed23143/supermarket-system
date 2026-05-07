@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface RecommendedProduct {
   name: string;
@@ -8,7 +8,7 @@ export interface RecommendedProduct {
 
 /**
  * Gets product recommendations based on the items currently in the user's cart
- * using the Anthropic Claude API.
+ * using the Google Gemini API.
  *
  * @param cartItems - Array of product names/descriptions currently in the cart
  * @returns Promise resolving to an array of recommended products
@@ -16,41 +16,30 @@ export interface RecommendedProduct {
 export async function getProductRecommendations(
   cartItems: string[]
 ): Promise<RecommendedProduct[]> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
     throw new Error(
-      "ANTHROPIC_API_KEY environment variable is not set. Please configure it to use AI recommendations."
+      "GEMINI_API_KEY environment variable is not set. Please configure it to use AI recommendations."
     );
   }
 
-  const client = new Anthropic({ apiKey });
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
   const cartDescription =
     cartItems.length > 0
       ? `The user currently has these items in their cart: ${cartItems.join(", ")}`
       : "The user's cart is empty.";
 
-  const message = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1024,
-    messages: [
-      {
-        role: "user",
-        content: `${cartDescription}
+  const prompt = `${cartDescription}
 
 Based on these items, please recommend 3-5 complementary products that would go well in a supermarket context. 
 Return your response as a valid JSON array with objects containing "name" (product name), "reason" (why it pairs well), and optionally "estimatedPrice" (price estimate). 
-Only return the JSON array, no other text.`,
-      },
-    ],
-  });
+Only return the JSON array, no other text.`;
 
-  // Extract the text content from the response
-  const responseText = message.content
-    .filter((block) => block.type === "text")
-    .map((block) => (block as { type: "text"; text: string }).text)
-    .join("");
+  const result = await model.generateContent(prompt);
+  const responseText = result.response.text();
 
   // Parse the JSON response
   const recommendations: RecommendedProduct[] = JSON.parse(responseText);
